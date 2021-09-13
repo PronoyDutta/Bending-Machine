@@ -253,7 +253,7 @@ void loop() {
   delay(1000);
   
   digitalWrite(enable,LOW);
-  int i=0;
+  int i=1;
   
   display.clearDisplay();
   display.setTextSize(2);
@@ -271,7 +271,8 @@ void loop() {
   start_time = 0;
   start_time = millis();
   while (i != bends){
-    
+    experiment_status(i,start_time, time_required);
+    display.display(); 
     stepper.setSpeed(-stepper_speed);
    do{
           stepper.runSpeed();
@@ -280,9 +281,7 @@ void loop() {
    do{
           stepper.runSpeed();
          } while (stepper.currentPosition() <int_Post);  
-  i++; 
-  experiment_status(i,start_time, time_required);
-  display.display();        
+  i++;        
   }
   
   digitalWrite(enable,HIGH);
@@ -756,7 +755,7 @@ void experiment_status(int i, unsigned long start_time,unsigned long time_requir
    display.fillRect(0, 20, 70, 15, BLACK);
    display.setCursor(5,20);
    display.println(i);
-   display.fillRect(70, 50, 70, 15, BLACK);
+   display.fillRect(60, 50, 70, 15, BLACK);
    display.setTextSize(1);
    display.setCursor(61,50);
    time_remaining = (time_required-((millis()-start_time)/1000))/60;  // time in minutes
